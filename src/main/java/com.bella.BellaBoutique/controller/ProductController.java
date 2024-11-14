@@ -53,7 +53,12 @@ public class ProductController {
 
         if (optionalProduct.isPresent()) {
             Product updatedProduct = productService.updateProduct(id, productDetails);
-            return ResponseEntity.ok(productService.convertToDTO(updatedProduct));
+
+            if (updatedProduct != null) {
+                return ResponseEntity.ok(productService.convertToDTO(updatedProduct));  // Zet het Product om naar een ProductDTO
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }

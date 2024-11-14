@@ -1,11 +1,16 @@
 package com.bella.BellaBoutique.DTO;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@RequiredArgsConstructor
+@Builder
 public class ProductDTO {
     private Long id;
     private String title;
@@ -31,6 +36,5 @@ public class ProductDTO {
     private List<String> tags;
     private List<String> images;
     private List<ReviewDTO> reviews;
-
 }
 
