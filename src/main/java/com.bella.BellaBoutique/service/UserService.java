@@ -74,31 +74,23 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    public void updateUserPassword(String username, UserDto dto) {
-//        User user = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UserNotFoundException("User not found"));
-//
-//        if (dto.getPassword() != null) {
-//            user.setPassword(dto.getPassword());
-//        }
-//        if (dto.getPhoto() != null) {
-//            user.setUserPhoto(dto.getPhoto());
-//        }
-//        userRepository.save(user);
-//    }
-
     @Transactional
     public Resource getPhotoFromUser(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             throw new RecordNotFoundException("User with number " + id + " not found.");
         }
         UserPhoto photo = optionalUser.get().getUserPhoto();
-        if(photo == null){
+        if (photo == null) {
             throw new RecordNotFoundException("User " + id + " had no photo.");
         }
-        return photoService.downLoadFile(photo.getFileName());
+        try {
+            return photoService.downLoadFile(photo.getFileName());
+        } catch (RuntimeException e) {
+            throw new RecordNotFoundException("Error fetching user photo: " + e.getMessage());
+        }
     }
+
 
     @Transactional
     public User assignPhotoToUser(String filename, Long id) {

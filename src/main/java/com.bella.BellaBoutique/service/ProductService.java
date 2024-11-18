@@ -14,14 +14,24 @@ public class ProductService {
     private ProductRepository productRepository;
 
 
+//    public ProductDTO convertToDTO(Product product) {
+//        ProductDTO productDTO = new ProductDTO();
+//        productDTO.setId(product.getId());
+//        productDTO.setTitle(product.getTitle());
+//        productDTO.setPrice(product.getPrice());
+//        productDTO.setImages(product.getImages());
+//        productDTO.setDescription(product.getDescription());
+//        return productDTO;
+//    }
+
     public ProductDTO convertToDTO(Product product) {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(product.getId());
-        productDTO.setTitle(product.getTitle());
-        productDTO.setPrice(product.getPrice());
-        productDTO.setImages(product.getImages());
-        productDTO.setDescription(product.getDescription());
-        return productDTO;
+        return ProductDTO.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .images(product.getImages())
+                .build();
     }
 
     public Product createProduct(ProductDTO productDTO) {
