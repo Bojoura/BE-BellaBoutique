@@ -13,17 +13,6 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-
-//    public ProductDTO convertToDTO(Product product) {
-//        ProductDTO productDTO = new ProductDTO();
-//        productDTO.setId(product.getId());
-//        productDTO.setTitle(product.getTitle());
-//        productDTO.setPrice(product.getPrice());
-//        productDTO.setImages(product.getImages());
-//        productDTO.setDescription(product.getDescription());
-//        return productDTO;
-//    }
-
     public ProductDTO convertToDTO(Product product) {
         return ProductDTO.builder()
                 .id(product.getId())

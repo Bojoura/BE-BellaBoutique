@@ -46,9 +46,5 @@ public class ReviewService {
 
 
 
-        // maak een variabele met de waarde van "reviewRepository.findByProductId(id)" // Maak een variabele met de waarde "new ArrayList<ReviewDto>()"//maak een for loop, die door de review-lijst heen loopt.// Vertaal in de for loop alle waardes van review naar reviewdto, dus dto.setx(review.getx()) en dto.sety(review.gety())// Return uiteindelijk die gemaakt reviewdto-lijst. // In je controller moet je dan deze methode gaan aansprken, in plaats van de repository (de repository spreek je nu namelijk in de service aan, zoals het hoort)
-
-
-
 
 
