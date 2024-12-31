@@ -1,6 +1,5 @@
 package com.bella.BellaBoutique.DTO;
 
-import com.bella.BellaBoutique.model.users.UserPhoto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -26,6 +25,4 @@ public class UserDto {
     public Set<String> authority;
 
     public String photoUrl;
-
-//    UserPhoto photo;
 }

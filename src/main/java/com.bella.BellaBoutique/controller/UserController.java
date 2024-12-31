@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -39,8 +40,12 @@ public class UserController {
     @GetMapping(value = "/{email}")
     public ResponseEntity<Map<String, Object>> getUser(@PathVariable("email") String email) {
         User user = userService.getUserByEmail(email);
-        String photoUrl = null;
 
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String photoUrl = null;
         if (user.getUserPhoto() != null) {
             photoUrl = "/users/" + user.getId() + "/photo";
         }
@@ -94,7 +99,6 @@ public class UserController {
             if (photo != null && !photo.isEmpty()) {
                 UserPhoto userPhoto = photoService.storeFile(photo);
                 userService.assignPhotoToUser(userPhoto.getFileName(), user.getId());
-
             }
 
             UserDto updatedUserDto = userDtoMapper.toDto(user);

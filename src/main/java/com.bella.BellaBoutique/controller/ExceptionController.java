@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 @RestController
 @CrossOrigin
