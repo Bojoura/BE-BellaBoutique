@@ -24,7 +24,6 @@ public class UserPhoto {
     @OneToOne(mappedBy = "userPhoto")
     private User user;
 
-    // Constructor voor het maken van een nieuwe UserPhoto met alleen fileName
     public UserPhoto(String fileName) {
         this.fileName = fileName;
     }

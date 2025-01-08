@@ -131,22 +131,18 @@ public class Product {
     private Inventory inventory;
 
     public Boolean addToCart() {
-        // Implementatie
         return true;
     }
 
     public Boolean sellProduct() {
-        // Implementatie
         return true;
     }
 
     public Boolean getProductDetail() {
-        // Implementatie
         return true;
     }
 
     public Boolean buyProduct() {
-        // Implementatie
         return true;
     }
 }
