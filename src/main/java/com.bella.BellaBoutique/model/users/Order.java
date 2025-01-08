@@ -6,8 +6,8 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "orders")
+@Entity(name = "UserOrder")
+@Table(name = "user_orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
