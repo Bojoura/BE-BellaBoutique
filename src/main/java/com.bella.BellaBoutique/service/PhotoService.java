@@ -37,8 +37,12 @@ public class PhotoService {
             throw new IOException("Ongeldige bestandsnaam: " + fileName);
         }
 
-        Path targetLocation = fileStoragePath.resolve(fileName);
-        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Path targetLocation = fileStoragePath.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Fout bij het opslaan van het bestand", e);
+        }
 
         UserPhoto photo = new UserPhoto(fileName);
         repo.save(photo);

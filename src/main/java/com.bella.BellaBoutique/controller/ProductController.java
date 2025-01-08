@@ -5,6 +5,7 @@ import com.bella.BellaBoutique.model.products.Product;
 import com.bella.BellaBoutique.repository.ProductRepository;
 import com.bella.BellaBoutique.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +56,7 @@ public class ProductController {
             Product updatedProduct = productService.updateProduct(id, productDetails);
 
             if (updatedProduct != null) {
-                return ResponseEntity.ok(productService.convertToDTO(updatedProduct));  // Zet het Product om naar een ProductDTO
+                return ResponseEntity.ok(productService.convertToDTO(updatedProduct));  
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -71,6 +72,19 @@ public class ProductController {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/featured")
+    public ResponseEntity<List<ProductDTO>> getFeaturedProducts() {
+        try {
+            List<Product> featuredProducts = productService.getFeaturedProducts();
+            List<ProductDTO> featuredProductDTOs = featuredProducts.stream()
+                    .map(productService::convertToDTO)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(featuredProductDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

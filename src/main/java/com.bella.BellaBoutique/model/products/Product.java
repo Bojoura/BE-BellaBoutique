@@ -1,11 +1,10 @@
 package com.bella.BellaBoutique.model.products;
 
+import com.bella.BellaBoutique.model.inventory.Inventory;
+import com.bella.BellaBoutique.model.orders.OrderItem;
 import com.bella.BellaBoutique.model.reviews.Review;
 import com.bella.BellaBoutique.model.users.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.bella.BellaBoutique.model.cart.CartItem;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,8 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_id_seq")
+    @SequenceGenerator(name = "products_id_seq", sequenceName = "products_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false, length = 255)
@@ -33,9 +33,6 @@ public class Product {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    @Column(length = 50)
-    private String category;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
@@ -46,9 +43,8 @@ public class Product {
     @Column(precision = 3, scale = 2)
     private BigDecimal rating;
 
-    @Column(precision = 10, scale = 2)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private BigDecimal stock;
+    @Column(name = "stock")
+    private Integer stock;
 
     @Column(length = 100)
     private String brand;
@@ -87,12 +83,6 @@ public class Product {
 
     private Timestamp updatedAt;
 
-    @Column(length = 50)
-    private String barcode;
-
-    @Column(length = 255)
-    private String qrCode;
-
     @Column(length = 255)
     private String thumbnail;
 
@@ -105,6 +95,15 @@ public class Product {
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "images_url")
     private List<String> images;
+
+    @Column(length = 50)
+    private String barcode;
+
+    @Column(length = 255)
+    private String qrCode;
+
+    @Column(name = "category")
+    private String category;
 
     @PrePersist
     protected void onCreate() {
@@ -121,4 +120,33 @@ public class Product {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems;
+
+    @ManyToOne
+    private Inventory inventory;
+
+    public Boolean addToCart() {
+        // Implementatie
+        return true;
+    }
+
+    public Boolean sellProduct() {
+        // Implementatie
+        return true;
+    }
+
+    public Boolean getProductDetail() {
+        // Implementatie
+        return true;
+    }
+
+    public Boolean buyProduct() {
+        // Implementatie
+        return true;
+    }
 }

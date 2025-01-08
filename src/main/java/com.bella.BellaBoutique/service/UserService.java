@@ -38,11 +38,6 @@ public class UserService {
         return collection;
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Gebruiker " + username + "kan niet gevonden worden."));
-    }
-
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Gebruiker met " + email + "kan niet gevonden worden." ));

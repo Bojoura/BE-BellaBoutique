@@ -35,7 +35,7 @@ public class OverrideUserDetailsService implements UserDetailsService {
 
         String username = foundUser.getUsername();
         String password = foundUser.getPassword();
-        System.out.println("Username: " + username);
+        System.out.println("Gebruikersnaam: " + username);
 
         Set<Authority> authorities = foundUser.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

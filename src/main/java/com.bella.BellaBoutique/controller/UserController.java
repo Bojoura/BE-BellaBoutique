@@ -40,12 +40,8 @@ public class UserController {
     @GetMapping(value = "/{email}")
     public ResponseEntity<Map<String, Object>> getUser(@PathVariable("email") String email) {
         User user = userService.getUserByEmail(email);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         String photoUrl = null;
+
         if (user.getUserPhoto() != null) {
             photoUrl = "/users/" + user.getId() + "/photo";
         }

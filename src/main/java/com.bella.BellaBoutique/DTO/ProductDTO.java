@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
     private Long id;
     private String title;
@@ -17,7 +17,7 @@ public class ProductDTO {
     private BigDecimal price;
     private BigDecimal discountPercentage;
     private BigDecimal rating;
-    private BigDecimal stock;
+    private Integer stock;
     private String brand;
     private String sku;
     private BigDecimal weight;
@@ -28,11 +28,12 @@ public class ProductDTO {
     private String shippingInformation;
     private String availabilityStatus;
     private String returnPolicy;
+    private Integer minimumOrderQuantity;
     private String barcode;
     private String qrCode;
     private String thumbnail;
-    private List<String> tags;
     private List<String> images;
+    private List<String> tags;
     private List<ReviewDTO> reviews;
 }
 

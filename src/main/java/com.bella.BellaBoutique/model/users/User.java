@@ -2,19 +2,22 @@ package com.bella.BellaBoutique.model.users;
 
 import com.bella.BellaBoutique.model.products.Product;
 import com.bella.BellaBoutique.model.reviews.Review;
+import com.bella.BellaBoutique.model.cart.ShoppingCart;
+import com.bella.BellaBoutique.model.orders.Order;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Builder
 public class User {
 
     @Id
@@ -25,13 +28,17 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false, length = 255)
     private String password;
 
-    @OneToOne
-    UserPhoto userPhoto;
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "address_line")
+    private String addressLine;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private UserPhoto userPhoto;
 
     @Getter
     @OneToMany(
@@ -44,6 +51,18 @@ public class User {
     @JsonIgnoreProperties("user")
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private Set<Review> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Order> orders;
+
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Product> products;
+
     public void addAuthority(Authority authority) {
         authority.setUser(this);
         this.authorities.add(authority);
@@ -54,12 +73,4 @@ public class User {
         this.authorities.remove(authority);
     }
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private Set<Review> reviews = new HashSet<>();
-
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Product> products;
-
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
 }
