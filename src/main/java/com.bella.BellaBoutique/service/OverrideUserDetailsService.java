@@ -26,11 +26,16 @@ public class OverrideUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        if (email == null) {
+            throw new UsernameNotFoundException("Email mag niet null zijn.");
+        }
+
         System.out.println("Loading User By Username: " + email);
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserNotFoundException("Gebruiker niet gevonden met email: " + email);
         }
+
         User foundUser = user.get();
 
         String username = foundUser.getUsername();
@@ -45,5 +50,4 @@ public class OverrideUserDetailsService implements UserDetailsService {
         System.out.println("Authorities: " + grantedAuthorities);
         return new org.springframework.security.core.userdetails.User(email, password, grantedAuthorities);
     }
-
 }
