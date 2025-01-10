@@ -1,6 +1,7 @@
 package com.bella.BellaBoutique.controller;
 
 import com.bella.BellaBoutique.DTO.UserDto;
+import com.bella.BellaBoutique.DTO.UserPhotoDto;
 import com.bella.BellaBoutique.mappers.UserDtoMapper;
 import com.bella.BellaBoutique.model.users.User;
 import com.bella.BellaBoutique.model.users.UserPhoto;
@@ -37,21 +38,34 @@ public class UserController {
         return ResponseEntity.ok().body(userDtos);
     }
 
+//    @GetMapping(value = "/{email}")
+//    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("email") String email) {
+//        User user = userService.getUserByEmail(email);
+//        String photoUrl = null;
+//
+//        if (user.getUserPhoto() != null) {
+//            photoUrl = "/users/" + user.getId() + "/photo";
+//        }
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("user", user);
+//        response.put("photoUrl", photoUrl);
+//
+//        return ResponseEntity.ok(response);
+//    }
+
     @GetMapping(value = "/{email}")
-    public ResponseEntity<Map<String, Object>> getUser(@PathVariable("email") String email) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("email") String email) {
         User user = userService.getUserByEmail(email);
-        String photoUrl = null;
+        UserDto userDto = userDtoMapper.fromUser(user);
 
         if (user.getUserPhoto() != null) {
-            photoUrl = "/users/" + user.getId() + "/photo";
+            userDto.setPhotoUrl("/images/" + user.getUserPhoto().getFileName());
         }
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("user", user);
-        response.put("photoUrl", photoUrl);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(userDto);
     }
+
 
     @GetMapping("/{id}/photo")
     public ResponseEntity<Resource> getUserPhoto(@PathVariable("id") Long id, HttpServletRequest request){
@@ -90,15 +104,23 @@ public class UserController {
             if (user == null) {
                 return ResponseEntity.notFound().build();
             }
+
             if (name != null) user.setUsername(name);
             if (email != null) user.setEmail(email);
+
             if (photo != null && !photo.isEmpty()) {
+                if (user.getUserPhoto() != null) {
+                    photoService.deleteOldPhoto(user.getUserPhoto());
+                }
+
                 UserPhoto userPhoto = photoService.storeFile(photo);
+
                 userService.assignPhotoToUser(userPhoto.getFileName(), user.getId());
             }
 
             UserDto updatedUserDto = userDtoMapper.toDto(user);
-            if (user.getUserPhoto() != null){
+
+            if (user.getUserPhoto() != null) {
                 updatedUserDto.setPhotoUrl("/users/" + user.getId() + "/photo");
             }
 

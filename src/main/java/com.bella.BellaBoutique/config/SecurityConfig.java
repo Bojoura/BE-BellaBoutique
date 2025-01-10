@@ -65,7 +65,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/users/*").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users/{email}", "/users/{email}/authorities").hasAnyRole("CUSTOMER", "EMPLOYEE", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/users/{email}").permitAll()

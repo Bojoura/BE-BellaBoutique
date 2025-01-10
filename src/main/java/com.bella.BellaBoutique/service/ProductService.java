@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,9 +46,11 @@ public class ProductService {
                 .thumbnail(product.getThumbnail())
                 .images(product.getImages())
                 .tags(product.getTags())
-                .reviews(product.getReviews().stream()
+                .reviews(product.getReviews() != null ?
+                product.getReviews().stream()
                         .map(this::convertToReviewDTO)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList()) :
+                Collections.emptyList())
                 .build();
     }
 
@@ -63,16 +66,28 @@ public class ProductService {
     }
 
     public Product createProduct(ProductDTO productDTO) {
+        if (productDTO.getTitle() == null || productDTO.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Invalid data");
+        }
+
         Product product = new Product();
         updateProductFromDTO(product, productDTO);
+
         return productRepository.save(product);
     }
 
     public Product updateProduct(Long id, ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepository.findById(id);
+
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
+
+            if (productDTO.getTitle() == null || productDTO.getTitle().isEmpty()) {
+                throw new IllegalArgumentException("Title cannot be null or empty");
+            }
+
             updateProductFromDTO(product, productDTO);
+
             return productRepository.save(product);
         }
         return null;
@@ -109,8 +124,14 @@ public class ProductService {
         product.setTags(dto.getTags());
     }
 
-    private boolean isValidCategory(String category) {
-        return Arrays.asList("beauty", "home", "heren", "dames").contains(category.toLowerCase());
+    public boolean isValidCategory(String category) {
+        if (category == null || category.isEmpty()) {
+            return false;
+        }
+
+        List<String> validCategories = Arrays.asList("beauty", "fashion", "home");
+
+        return validCategories.contains(category.toLowerCase());
     }
 
     public List<Product> getFeaturedProducts() {

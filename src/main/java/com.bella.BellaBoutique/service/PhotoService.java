@@ -63,4 +63,11 @@ public class PhotoService {
             throw new RuntimeException("Fout bij het laden van het bestand: " + fileName, e);
         }
     }
+
+    public void deleteOldPhoto(UserPhoto userPhoto) throws IOException {
+        if (userPhoto != null && userPhoto.getFileName() != null) {
+            Path oldFilePath = fileStoragePath.resolve(userPhoto.getFileName()).normalize();
+            Files.deleteIfExists(oldFilePath);
+        }
+    }
 }

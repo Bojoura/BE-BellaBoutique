@@ -14,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,7 +41,6 @@ public class User {
     @JoinColumn(name = "photo_id")
     private UserPhoto userPhoto;
 
-    @Getter
     @OneToMany(
             targetEntity = Authority.class,
             mappedBy = "user",
