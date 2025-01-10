@@ -25,5 +25,10 @@ VALUES
     (2, 'https://example.com/test2.jpg');
 
 INSERT INTO review (product_id, rating, comment, reviewer_name, reviewer_email)
-VALUES 
+VALUES
     (1, 5, 'Geweldig product!', 'Test User', 'test@test.com');
+    (2, 4, 'Heerlijk product, maar iets te duur.', 'Test User', 'test@test.com');
+    (3, 3, 'Goede kwaliteit, maar had meer verwacht voor de prijs.', 'Test User', 'test@test.com');
+    (4, 5, 'Dit product heeft mijn verwachtingen helemaal overtroffen!', 'Test User', 'test@test.com');
+    (5, 2, 'Helaas viel het tegen, niet zoals beschreven.', 'Test User', 'test@test.com');
+
