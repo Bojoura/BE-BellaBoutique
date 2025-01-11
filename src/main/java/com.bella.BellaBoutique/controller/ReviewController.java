@@ -20,9 +20,6 @@ public class ReviewController {
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<ReviewDTO>> getReviewsByProductId(@PathVariable Long productId) {
         List<ReviewDTO> reviews = reviewService.getReviewsByProductId(productId);
-        if (reviews.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(reviews);
     }
 
