@@ -15,17 +15,16 @@ public class UserDtoMapper {
 
         var dto = new UserDto();
 
-        dto.username = user.getUsername();
-        dto.password = user.getPassword();
-        dto.email = user.getEmail();
+        dto.setUsername(user.getUsername());
+        dto.setPassword(user.getPassword());
+        dto.setEmail(user.getEmail());
         if (!user.getAuthorities().isEmpty()) {
-            dto.authority = user.getAuthorities().stream()
+            dto.setAuthority(user.getAuthorities().stream()
                     .map(Authority::getAuthority)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toSet()));
         }
         return dto;
     }
-
 
     public UserDto toDto(User user) {
         UserDto dto = new UserDto();
@@ -37,7 +36,6 @@ public class UserDtoMapper {
                 .collect(Collectors.toSet()));
         return dto;
     }
-
 
     public User toUser(UserDto userDto) {
         User user = new User();

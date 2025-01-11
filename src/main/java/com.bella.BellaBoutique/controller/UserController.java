@@ -1,7 +1,6 @@
 package com.bella.BellaBoutique.controller;
 
 import com.bella.BellaBoutique.DTO.UserDto;
-import com.bella.BellaBoutique.DTO.UserPhotoDto;
 import com.bella.BellaBoutique.mappers.UserDtoMapper;
 import com.bella.BellaBoutique.model.users.User;
 import com.bella.BellaBoutique.model.users.UserPhoto;
